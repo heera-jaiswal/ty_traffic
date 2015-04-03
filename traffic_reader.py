@@ -23,18 +23,21 @@ def process_result(logs,city_list):
 	for item in items:
 		dict_item={}
 		print item
-		for param in item.split("?")[1].split("&"):
-			key=param.split("=")[0]
-			val=param.split("=")[1]
-			dict_item[key]=val
-		print dict_item
-		if "fromCity" in dict_item and "toCity" in dict_item:
-			try:
-				from_id = city_list[dict_item["fromCity"].lower()]["cid"]
-				to_id = city_list[dict_item["toCity"].lower()]["cid"]
-				result.append({"from":from_id,"to":to_id})
-			except Exception as e:
-				pass
+		try:
+			for param in item.split("?")[1].split("&"):
+				key=param.split("=")[0]
+				val=param.split("=")[1]
+				dict_item[key]=val
+			print dict_item
+			if "fromCity" in dict_item and "toCity" in dict_item:
+				try:
+					from_id = city_list[dict_item["fromCity"].lower()]["cid"]
+					to_id = city_list[dict_item["toCity"].lower()]["cid"]
+					result.append({"from":from_id,"to":to_id})
+				except Exception as e:
+					pass
+		except Exception as e:
+			pass
 	return result
 
 if __name__=="__main__":
