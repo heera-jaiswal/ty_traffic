@@ -40,7 +40,7 @@ if __name__=="__main__":
 	import json
 	city_list_path="city_to_id.json"
 	city_list=None
-	with temp open(city_list_path,"rb") as t:
+	with open(city_list_path,"rb") as t:
 		city_list=json.loads(t.read())
 	logs=get_hits()
 	result=process_result(logs,city_list)
