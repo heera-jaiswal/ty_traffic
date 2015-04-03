@@ -8,6 +8,7 @@ def get_hits():
 	month=cur_date.strftime("%b")
 	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
 	cmd="""grep "%s:" %s/%s|grep "%s" |tail|awk -F " " '{print $5}'""" %(cur_time,path,file_name,search_keyword)
+	print cmd
 	return execute(cmd)
 	
 
@@ -19,5 +20,6 @@ def process_result(result):
 	pass
 
 if __name__=="__main__":
-	sl=execute("dir")
-	print sl
+	#sl=execute("dir")
+	print get_hits()
+	#print sl
