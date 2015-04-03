@@ -3,7 +3,7 @@ def get_hits():
 	cur_date=datetime.now()-timedelta(minutes=1)
 	cur_time=cur_date.strftime("%H:%M")
 	file_name=cur_date.strftime("%Y_%m_%d*")
-	search_keyword="/ty2/search/"
+	search_keyword="/api/search/"
 	year=cur_date.strftime("%Y")
 	month=cur_date.strftime("%b")
 	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
