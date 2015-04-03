@@ -28,7 +28,8 @@ def process_result(logs,city_list):
 	#/api/search/?mode=oneway&departDate=04-04-2015&fromCity=Coimbatore&toCity=Bangalore&pickups=1&_=142805861700
 	items=logs.split("\n")
 	result=[]
-	for item in items:
+	counter=0
+	for item in items:		
 		dict_item={}
 		print item
 		try:
@@ -41,11 +42,13 @@ def process_result(logs,city_list):
 				try:
 					from_id = city_list[dict_item["fromCity"].lower()]["cid"]
 					to_id = city_list[dict_item["toCity"].lower()]["cid"]
-					result.append({"from":from_id,"to":to_id})
+					#{"data": [{"to": "2476", "from": "2461", "index": 0},
+					result.append({"to":from_id,"from":to_id,"index":counter})
 				except Exception as e:
 					pass
 		except Exception as e:
 			pass
+		counter+=1
 	return result
 
 if __name__=="__main__":
@@ -58,7 +61,7 @@ if __name__=="__main__":
 		city_list=json.loads(t.read())
 	logs,cur_date=get_hits()
 	result=process_result(logs,city_list)
-	send_to_server({"result":result,"time":cur_date.strftime("%H:%M %Y-%m-%d")})	
+	send_to_server({"data":result,"time":cur_date.strftime("%H:%M %Y-%m-%d")})	
 	
 
 	#print sl
