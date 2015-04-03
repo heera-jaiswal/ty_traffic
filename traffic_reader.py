@@ -7,7 +7,7 @@ def get_hits():
 	year=cur_date.strftime("%Y")
 	month=cur_date.strftime("%b")
 	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
-	cmd="""grep "%s:" %s/%s|grep "%s" |awk -F " " '{print $5}'""" %(cur_time,path,file_name,search_keyword)
+	cmd="""grep "%s:" %s/%s|grep "%s" |tail|awk -F " " '{print $5}'""" %(cur_time,path,file_name,search_keyword)
 	print cmd
 	return execute(cmd)
 	
@@ -23,9 +23,10 @@ def process_result(logs,city_list):
 	for item in items:
 		dict_item={}
 		for param in item.split("?")[1].split("&"):
-			key=param.split(0)
-			val=param.split(1)
+			key=param.split("=")[0]
+			val=param.split("=")[1]
 			dict_item[key]=val
+		print dict_item
 		if "fromCity" in dict_item and "toCity" in dict_item:
 			try:
 				from_id = city_list[dict_item["fromCity"].lower()]["cid"]
