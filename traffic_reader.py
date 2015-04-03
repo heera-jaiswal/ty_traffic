@@ -22,6 +22,7 @@ def process_result(logs,city_list):
 	result=[]
 	for item in items:
 		dict_item={}
+		print item
 		for param in item.split("?")[1].split("&"):
 			key=param.split("=")[0]
 			val=param.split("=")[1]
