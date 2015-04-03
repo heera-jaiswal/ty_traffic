@@ -16,6 +16,7 @@ def execute(cmd):
 	return check_output(cmd,shell=True)
 
 def process_result(result):
+	pass
 
 if __name__=="__main__":
 	sl=execute("dir")
