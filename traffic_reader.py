@@ -9,12 +9,20 @@ def get_hits():
 	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
 	cmd="""grep "%s:" %s/%s|grep "%s" |tail|awk -F " " '{print $5}'""" %(cur_time,path,file_name,search_keyword)
 	print cmd
-	return execute(cmd)
+	return execute(cmd),cur_date
 	
 
 def execute(cmd):
 	from subprocess import check_output
 	return check_output(cmd,shell=True)
+def send_to_server(data):
+	from httplib2 import Http
+	import json
+	h = Http()	
+	body=json.dumps(data)	
+	headers={'Content-Type':'application/json'}
+	resp, content = h.request("http://gds.beta.travelyaari.com/service_report_ajax/put_ty_traffic?shared_key=b218fad544980213a25ef18031c9127e", "POST",body=body,headers=headers )	
+	print content
 
 def process_result(logs,city_list):
 	#/api/search/?mode=oneway&departDate=04-04-2015&fromCity=Coimbatore&toCity=Bangalore&pickups=1&_=142805861700
@@ -43,13 +51,14 @@ def process_result(logs,city_list):
 if __name__=="__main__":
 	#sl=execute("dir")
 	import json
+	from datetime import datetime
 	city_list_path="city_to_id.json"
 	city_list=None
 	with open(city_list_path,"rb") as t:
 		city_list=json.loads(t.read())
-	logs=get_hits()
+	logs,cur_date=get_hits()
 	result=process_result(logs,city_list)
-	print json.dumps({"hits":result},indent=4)
-	print len(result)
+	send_to_server({"result":result,"time":cur_date.strftime("%H:%M %Y-%m-%d")})	
+	
 
 	#print sl
