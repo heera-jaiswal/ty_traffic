@@ -31,6 +31,7 @@ def process_result(logs,city_list):
 	counter=0
 	for item in items:		
 		dict_item={}
+		print item
 		hit_time=datetime.strptime(item.split("|")[0],"[%d/%b/%Y:%H:%M:%S")		
 		path=item.split("|")[1]		
 		try:
