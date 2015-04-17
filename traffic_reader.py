@@ -63,7 +63,7 @@ if __name__=="__main__":
 		city_list=json.loads(t.read())
 	logs,cur_date=get_hits()
 	result=process_result(logs,city_list)
-	send_to_server({"data":result,"time":cur_date.strftime("%H:%M %Y-%m-%d")})	
+	send_to_server({"data":result,"time":cur_date.strftime("%Y-%m-%d %H:%M:%S")})	
 	
 
 	#print sl
