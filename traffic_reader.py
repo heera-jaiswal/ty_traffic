@@ -22,7 +22,7 @@ def send_to_server(data):
 	body=json.dumps(data)	
 	headers={'Content-Type':'application/json'}
 	resp, content = h.request("http://gds.beta.travelyaari.com/service_report_ajax/put_ty_traffic?shared_key=b218fad544980213a25ef18031c9127e", "POST",body=body,headers=headers )	
-	#print content
+	print content
 
 def process_result(logs,city_list):
 	#/api/search/?mode=oneway&departDate=04-04-2015&fromCity=Coimbatore&toCity=Bangalore&pickups=1&_=142805861700
