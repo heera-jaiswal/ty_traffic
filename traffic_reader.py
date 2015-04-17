@@ -7,7 +7,7 @@ def get_hits():
 	year=cur_date.strftime("%Y")
 	month=cur_date.strftime("%b")
 	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
-	cmd="""grep "%s:" %s/%s|grep "%s"|awk -F " " '{print $2"|"print $5}'""" %(cur_time,path,file_name,search_keyword)
+	cmd="""grep "%s:" %s/%s|grep "%s"|awk -F " " '{print $2"|"$5}'""" %(cur_time,path,file_name,search_keyword)
 	print cmd
 	return execute(cmd),cur_date
 	
