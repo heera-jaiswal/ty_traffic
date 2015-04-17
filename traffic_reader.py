@@ -30,18 +30,19 @@ def process_result(logs,city_list):
 	result=[]
 	counter=0
 	for item in items:		
-		dict_item={}
-		print item
-		hit_time=datetime.strptime(item.split("|")[0],"[%d/%b/%Y:%H:%M:%S")		
-		path=item.split("|")[1]		
+		dict_item={}		
 		try:
+			path=item.split("|")[1]		
+			hit_time=datetime.strptime(item.split("|")[0],"[%d/%b/%Y:%H:%M:%S")							
 			for param in path.split("?")[1].split("&"):
 				key=param.split("=")[0]
 				val=param.split("=")[1]
 				dict_item[key]=val
-			print dict_item
+			#print dict_item
+
 			if "fromCity" in dict_item and "toCity" in dict_item:
 				try:
+					hit_time=datetime.strptime(item.split("|")[0],"[%d/%b/%Y:%H:%M:%S")							
 					from_id = city_list[dict_item["fromCity"].lower()]["cid"]
 					to_id = city_list[dict_item["toCity"].lower()]["cid"]
 					#{"data": [{"to": "2476", "from": "2461", "index": 0},
