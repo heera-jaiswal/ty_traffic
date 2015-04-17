@@ -55,7 +55,7 @@ if __name__=="__main__":
 	#sl=execute("dir")
 	import json
 	from datetime import datetime
-	city_list_path="city_to_id.json"
+	city_list_path="/home/ec2-user/data_platform/env26/ty_traffic/city_to_id.json"
 	city_list=None
 	with open(city_list_path,"rb") as t:
 		city_list=json.loads(t.read())
