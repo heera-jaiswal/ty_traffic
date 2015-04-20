@@ -10,6 +10,18 @@ def get_hits():
 	cmd="""grep "%s:" %s/%s|grep "%s"|awk -F " " '{print $2"|"$5}'""" %(cur_time,path,file_name,search_keyword)
 	print cmd
 	return execute(cmd),cur_date
+
+def get_hits_at(cur_date):	
+	#cur_date=#datetime.now()-timedelta(minutes=1)
+	cur_time=cur_date.strftime("%H:%M")
+	file_name=cur_date.strftime("%Y_%m_%d*")
+	search_keyword="/api/search/"
+	year=cur_date.strftime("%Y")
+	month=cur_date.strftime("%b")
+	path="/mnt/data/flume/logs/servers/ty/%s/%s/access-logs" %(year,month)
+	cmd="""grep "%s:" %s/%s|grep "%s"|awk -F " " '{print $2"|"$5}'""" %(cur_time,path,file_name,search_keyword)
+	print cmd
+	return execute(cmd),cur_date	
 	
 
 def execute(cmd):
@@ -54,6 +66,22 @@ def process_result(logs,city_list):
 		counter+=1
 	return result
 
+def refresh_day_traffic():
+	import json	
+	city_list_path="/home/ec2-user/data_platform/env26/ty_traffic/city_to_id.json"
+	city_list=None
+	with open(city_list_path,"rb") as t:
+		city_list=json.loads(t.read())
+
+	till_dt=datetime.now()-timedelta(minutes=1)
+	cur_date=datetime.combine(till_dt.date(), datetime.min.time())+timedelta(minutes=1)
+	while cur_date<till_dt:		
+		logs,cur_date=get_hits_at()
+		result=process_result(logs,city_list)
+		send_to_server({"data":result,"time":cur_date.strftime("%Y-%m-%d %H:%M:%S")})	
+		print cur_date
+		cur_date=cur_date+timedelta(minutes=1)
+
 if __name__=="__main__":
 	#sl=execute("dir")
 	import json	
@@ -64,6 +92,7 @@ if __name__=="__main__":
 	logs,cur_date=get_hits()
 	result=process_result(logs,city_list)
 	send_to_server({"data":result,"time":cur_date.strftime("%Y-%m-%d %H:%M:%S")})	
+	#refresh_day_traffic()
 	
 
 	#print sl
