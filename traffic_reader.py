@@ -76,7 +76,7 @@ def refresh_day_traffic():
 	till_dt=datetime.now()-timedelta(minutes=1)
 	cur_date=datetime.combine(till_dt.date(), datetime.min.time())+timedelta(minutes=1)
 	while cur_date<till_dt:		
-		logs,cur_date=get_hits_at()
+		logs,cur_date=get_hits_at(cur_date)
 		result=process_result(logs,city_list)
 		send_to_server({"data":result,"time":cur_date.strftime("%Y-%m-%d %H:%M:%S")})	
 		print cur_date
